@@ -1,5 +1,6 @@
 #!/bin/sh
 mkdir -p build
+mkdir -p dist
 #(cd build && emconfigure cmake -DCMAKE_BUILD_TYPE=Debug ..)
 (cd build && emcmake cmake ..)
 (cd build && emmake make VERBOSE=1 -j 16)

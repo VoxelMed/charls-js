@@ -3,8 +3,9 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-#FROM mcr.microsoft.com/vscode/devcontainers/base:0-debian-9
-FROM trzeci/emscripten
+# clang 10
+# https://github.com/trzecieu/emscripten-docker/issues/68
+FROM trzeci/emscripten:1.39.18-upstream
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -21,10 +22,9 @@ ARG USER_GID=$USER_UID
 RUN apt-get update \
     #
     # Install C++ tools
-    #&& apt-get -y install build-essential cmake cppcheck valgrind \
     && apt-get -y install build-essential cppcheck valgrind \
     # version 3.17 of cmake
-    && wget -qO- "https://cmake.org/files/v3.17/cmake-3.17.0-Linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C /usr/local\
+    && wget -qO- "https://cmake.org/files/v3.17/cmake-3.17.4-Linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C /usr/local\
     #
     # [Optional] Update UID/GID if needed
     && if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
